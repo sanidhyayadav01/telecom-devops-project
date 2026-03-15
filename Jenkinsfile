@@ -36,8 +36,10 @@ pipeline {
 
         stage('Deploy with Terraform') {
             steps {
+                 dir('terraform') {
                 bat 'cd terraform && terraform init'
                 bat 'cd terraform && terraform apply -auto-approve'
+                }
             }
         }
 
