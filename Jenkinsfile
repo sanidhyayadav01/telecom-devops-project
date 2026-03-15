@@ -3,6 +3,12 @@ pipeline {
 
     stages {
 
+        stage('Clone Repository') {
+            steps {
+                git 'https://github.com/sanidhyayadav01/telecom-devops-project.git'
+            }
+        }
+
         stage('Build Docker Image') {
             steps {
                 bat 'docker build -t telecom-service .'
