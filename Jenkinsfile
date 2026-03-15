@@ -34,5 +34,12 @@ pipeline {
             }
         }
 
+        stage('Deploy with Terraform') {
+            steps {
+                bat 'cd terraform && terraform init'
+                bat 'cd terraform && terraform apply -auto-approve'
+            }
+        }
+
     }
 }
