@@ -189,5 +189,3 @@ Jenkinsfile
 * Integrate monitoring with Prometheus & Grafana
 * Implement Helm charts
 * Add automated testing in Jenkins pipeline
-
----
