@@ -10,7 +10,7 @@ provider "kubernetes" {
   config_path = "~/.kube/config"
 }
 
-resource "kubernetes_deployment" "telecom" {
+resource "kubernetes_deployment_v1" "telecom" {
   metadata {
     name = "telecom-deployment"
     labels = {
@@ -36,8 +36,10 @@ resource "kubernetes_deployment" "telecom" {
 
       spec {
         container {
-          image = "sanidhyaydv/telecom-service"
           name  = "telecom-container"
+          image = "telecom-service"
+
+          image_pull_policy = "Never"
 
           port {
             container_port = 5000
@@ -48,7 +50,7 @@ resource "kubernetes_deployment" "telecom" {
   }
 }
 
-resource "kubernetes_service" "telecom_service" {
+resource "kubernetes_service_v1" "telecom_service" {
   metadata {
     name = "telecom-service"
   }
