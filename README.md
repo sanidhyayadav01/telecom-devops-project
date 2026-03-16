@@ -43,7 +43,6 @@ telecom-devops-project
 │
 ├── Jenkinsfile
 ├── Dockerfile
-└── README.md
 ```
 
 ---
