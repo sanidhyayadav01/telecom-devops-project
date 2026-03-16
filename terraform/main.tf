@@ -38,9 +38,7 @@ resource "kubernetes_deployment_v1" "telecom" {
         container {
           name  = "telecom-container"
           image = "telecom-service"
-
-          image_pull_policy = "Never"
-
+          
           port {
             container_port = 5000
           }

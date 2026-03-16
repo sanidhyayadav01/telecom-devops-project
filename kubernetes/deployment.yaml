@@ -14,7 +14,6 @@ spec:
     spec:
       containers:
       - name: telecom-container
-        image: telecom-service
-        imagePullPolicy: Never
+        image: sanidhyaydv/telecom-service:latest
         ports:
         - containerPort: 5000
