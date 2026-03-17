@@ -15,6 +15,14 @@ pipeline {
             }
         }
 
+        stage('Docker Login') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'e0e74994-088e-472f-b545-e8716b02e279', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
+                    bat 'docker login -u %USER% -p %PASS%'
+                }
+            }
+        }
+
         stage('Push Image') {
             steps {
                 bat 'docker push sanidhyaydv/telecom-service:latest'
@@ -43,6 +51,5 @@ pipeline {
                 bat 'kubectl get svc'
             }
         }
-
     }
 }
