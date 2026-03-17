@@ -3,27 +3,21 @@ pipeline {
 
     stages {
 
-        stage('Clone Repository') {
-            steps {
-                git 'https://github.com/sanidhyayadav01/telecom-devops-project.git'
-            }
-        }
-
         stage('Build Docker Image') {
             steps {
-                bat 'docker build -t telecom-service .'
+                bat 'docker build -t telecom-service:latest .'
             }
         }
 
         stage('Tag Image') {
             steps {
-                bat 'docker tag telecom-service sanidhyaydv/telecom-service'
+                bat 'docker tag telecom-service:latest sanidhyaydv/telecom-service:latest'
             }
         }
 
         stage('Push Image') {
             steps {
-                bat 'docker push sanidhyaydv/telecom-service'
+                bat 'docker push sanidhyaydv/telecom-service:latest'
             }
         }
 
@@ -36,10 +30,17 @@ pipeline {
 
         stage('Deploy with Terraform') {
             steps {
-                 dir('terraform') {
-                bat 'cd terraform && terraform init'
-                bat 'cd terraform && terraform apply -auto-approve'
+                dir('terraform') {
+                    bat 'terraform init'
+                    bat 'terraform apply -auto-approve'
                 }
+            }
+        }
+
+        stage('Verify Deployment') {
+            steps {
+                bat 'kubectl get pods'
+                bat 'kubectl get svc'
             }
         }
 
