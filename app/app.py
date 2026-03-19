@@ -1,10 +1,15 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_file
 
 app = Flask(__name__)
 
 # Simulated in-memory user store and balance
 users = []
 balance = 1000
+
+# Serve frontend UI
+@app.route('/')
+def home():
+    return send_file('index.html')
 
 # 1️⃣ Service status endpoint
 @app.route('/status', methods=['GET'])

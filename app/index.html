@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Telecom Dashboard</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial;
+    background: #0f172a;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* HEADER */
+.header {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    background: #1e293b;
+}
+
+.menu-icon {
+    font-size: 24px;
+    cursor: pointer;
+    margin-right: 15px;
+}
+
+/* SIDEBAR */
+.sidebar {
+    position: fixed;
+    left: -230px;
+    top: 0;
+    width: 230px;
+    height: 100%;
+    background: #1e293b;
+    padding-top: 60px;
+    transition: 0.3s;
+    z-index: 1000;
+}
+
+.sidebar button {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    background: none;
+    border: none;
+    color: white;
+    text-align: left;
+    cursor: pointer;
+}
+
+.sidebar button:hover {
+    background: #334155;
+}
+
+/* CONTENT */
+.container {
+    flex: 1;
+    padding: 20px;
+}
+
+/* SERVICE CARDS */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 15px;
+}
+
+.card {
+    background: #1e293b;
+    padding: 20px;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 0 18px rgba(59, 130, 246, 0.6);
+}
+
+/* INPUT */
+input {
+    padding: 8px;
+    margin: 5px 0;
+    width: 100%;
+}
+
+button.action {
+    padding: 8px;
+    margin-top: 5px;
+    background: #3b82f6;
+    border: none;
+    color: white;
+    cursor: pointer;
+}
+
+/* RESPONSE */
+#result {
+    margin-top: 20px;
+    display: none;
+}
+
+#result h3 {
+    color: #00ffcc;
+}
+
+#result pre {
+    background: black;
+    color: white;
+    padding: 15px;
+    border-radius: 10px;
+}
+
+/* FOOTER */
+.footer {
+    text-align: center;
+    padding: 12px;
+    background: #1e293b;
+    color: gray;
+}
+
+/* INFO CARDS */
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.info-card {
+    background: #1e293b;
+    padding: 20px;
+    border-radius: 15px;
+    border: 1px solid #334155;
+    cursor: default;
+}
+
+.info-card h3 {
+    margin-bottom: 10px;
+    color: #38bdf8;
+}
+
+.info-card p {
+    color: #cbd5f5;
+    line-height: 1.6;
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">
+    <span class="menu-icon" onclick="toggleMenu()">☰</span>
+    <h2>Telecom Dashboard 🚀</h2>
+</div>
+
+<div class="sidebar" id="sidebar">
+    <button onclick="showPage('home')">🏠 Home</button>
+    <button onclick="showPage('system')">⚙️ System</button>
+    <button onclick="showPage('messaging')">📨 Messaging</button>
+    <button onclick="showPage('users')">👤 Users</button>
+    <button onclick="showPage('analytics')">📊 Analytics</button>
+    <button onclick="showPage('recharge')">💰 Recharge</button>
+    <button onclick="showPage('tracking')">📡 Tracking</button>
+</div>
+
+<div class="container" id="content"></div>
+
+<div id="result">
+    <h3>📊 Response</h3>
+    <pre id="output"></pre>
+</div>
+
+<div class="footer">
+    © <span id="year"></span> Telecom DevOps Platform
+</div>
+
+<script>
+
+// MENU
+function toggleMenu() {
+    const sidebar = document.getElementById("sidebar");
+    sidebar.style.left = sidebar.style.left === "0px" ? "-230px" : "0px";
+}
+
+// YEAR
+document.getElementById("year").innerText = new Date().getFullYear();
+
+// PAGE SWITCH
+function showPage(page) {
+
+    document.getElementById("sidebar").style.left = "-230px";
+    document.getElementById('result').style.display = "none";
+
+    // HOME
+    if (page === 'home') {
+        document.getElementById('content').innerHTML = `
+
+        <div class="info-grid">
+
+            <div class="info-card">
+                <h3>📡 Telecom DevOps Platform 🚀</h3>
+                <p>
+                A complete telecom simulation platform powered by APIs and DevOps practices.
+                This system demonstrates how real-world telecom backends operate using automated pipelines and containerized deployments.
+                </p>
+            </div>
+
+            <div class="info-card">
+                <h3>🧠 What We Built</h3>
+                <p>
+                ⚡ REST API system<br>
+                📦 Dockerized backend<br>
+                🚀 Jenkins CI/CD automation<br>
+                ☸️ Kubernetes deployment ready<br>
+                🔄 Terraform-based provisioning
+                </p>
+            </div>
+
+            <div class="info-card">
+                <h3>🏗️ Architecture Flow</h3>
+                <p>
+                UI → API → Backend → Docker → Jenkins → Kubernetes → Terraform  
+                End-to-end DevOps lifecycle implemented.
+                </p>
+            </div>
+
+        </div>
+
+        <h2 style="margin-top:30px;">🚀 Services</h2>
+
+        <div class="grid">
+
+            <div class="card" onclick="showPage('system')">
+                <h3>⚙️ System</h3>
+                <p>Status, health & balance APIs</p>
+            </div>
+
+            <div class="card" onclick="showPage('messaging')">
+                <h3>📨 Messaging</h3>
+                <p>Send telecom messages</p>
+            </div>
+
+            <div class="card" onclick="showPage('users')">
+                <h3>👤 Users</h3>
+                <p>Create & manage users</p>
+            </div>
+
+            <div class="card" onclick="showPage('analytics')">
+                <h3>📊 Analytics</h3>
+                <p>Delivery reports & stats</p>
+            </div>
+
+            <div class="card" onclick="showPage('recharge')">
+                <h3>💰 Recharge</h3>
+                <p>Add SMS credits</p>
+            </div>
+
+            <div class="card" onclick="showPage('tracking')">
+                <h3>📡 Tracking</h3>
+                <p>Track message delivery</p>
+            </div>
+
+        </div>
+        `;
+    }
+    // SYSTEM
+    if (page === 'system') {
+        document.getElementById('content').innerHTML = `
+            <div class="grid">
+                <div class="card">
+                    <h3>⚙️ System APIs</h3>
+                    <button class="action" onclick="getStatus()">Service Status</button>
+                    <button class="action" onclick="getHealth()">Health Check</button>
+                    <button class="action" onclick="getBalance()">Check Balance</button>
+                    <button class="action" onclick="getServiceInfo()">Service Info</button>
+                </div>
+            </div>
+        `;
+    }
+
+    // MESSAGING
+    if (page === 'messaging') {
+        document.getElementById('content').innerHTML = `
+            <div class="grid">
+                <div class="card">
+                    <h3>📨 Send Message</h3>
+                    <input id="number" placeholder="Enter Number">
+                    <input id="message" placeholder="Enter Message">
+                    <button class="action" onclick="sendMessage()">Send Message</button>
+                </div>
+            </div>
+        `;
+    }
+
+    // USERS
+    if (page === 'users') {
+        document.getElementById('content').innerHTML = `
+            <div class="grid">
+                <div class="card">
+                    <h3>👤 User Management</h3>
+                    <input id="name" placeholder="Enter Name">
+                    <input id="userNumber" placeholder="Enter Number">
+                    <button class="action" onclick="createUser()">Create User</button>
+                    <button class="action" onclick="getUsers()">View Users</button>
+                    <input id="deleteId" placeholder="User ID to Delete">
+                    <button class="action" onclick="deleteUser()">Delete User</button>
+                </div>
+            </div>
+        `;
+    }
+
+    // ANALYTICS
+    if (page === 'analytics') {
+        document.getElementById('content').innerHTML = `
+            <div class="grid">
+                <div class="card">
+                    <h3>📊 Delivery Analytics</h3>
+                    <button class="action" onclick="getDeliveryReport()">Get Delivery Report</button>
+                </div>
+            </div>
+        `;
+    }
+
+    // RECHARGE
+    if (page === 'recharge') {
+        document.getElementById('content').innerHTML = `
+            <div class="grid">
+                <div class="card">
+                    <h3>💰 Recharge Balance</h3>
+                    <input id="amount" placeholder="Enter Amount">
+                    <button class="action" onclick="recharge()">Recharge</button>
+                </div>
+            </div>
+        `;
+    }
+
+    // TRACKING
+    if (page === 'tracking') {
+        document.getElementById('content').innerHTML = `
+            <div class="grid">
+                <div class="card">
+                    <h3>📡 Message Tracking</h3>
+                    <input id="msgId" placeholder="Enter Message ID">
+                    <button class="action" onclick="getMessageStatus()">Track Status</button>
+                </div>
+            </div>
+        `;
+    }
+}
+
+// RESPONSE PANEL
+function show(data) {
+    document.getElementById('result').style.display = "block";
+    document.getElementById('output').innerText = JSON.stringify(data, null, 2);
+}
+
+/* ================= API CALLS ================= */
+
+// SYSTEM
+function getStatus() {
+    fetch('/status').then(r => r.json()).then(show);
+}
+
+function getHealth() {
+    fetch('/health').then(r => r.json()).then(show);
+}
+
+function getBalance() {
+    fetch('/check-balance').then(r => r.json()).then(show);
+}
+
+function getServiceInfo() {
+    fetch('/service-info').then(r => r.json()).then(show);
+}
+
+// USERS
+function createUser() {
+    fetch('/create-user', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+            name: document.getElementById('name').value,
+            number: document.getElementById('userNumber').value
+        })
+    }).then(r => r.json()).then(show);
+}
+
+function getUsers() {
+    fetch('/users').then(r => r.json()).then(show);
+}
+
+function deleteUser() {
+    const id = document.getElementById('deleteId').value;
+    fetch(`/delete-user/${id}`, {
+        method: 'DELETE'
+    }).then(r => r.json()).then(show);
+}
+
+// MESSAGING
+function sendMessage() {
+    fetch('/send-message', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+            number: document.getElementById('number').value,
+            message: document.getElementById('message').value
+        })
+    }).then(r => r.json()).then(show);
+}
+
+// RECHARGE
+function recharge() {
+    fetch('/recharge', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+            amount: parseInt(document.getElementById('amount').value)
+        })
+    }).then(r => r.json()).then(show);
+}
+
+// TRACKING
+function getMessageStatus() {
+    const id = document.getElementById('msgId').value;
+    fetch(`/message-status/${id}`).then(r => r.json()).then(show);
+}
+
+// ANALYTICS
+function getDeliveryReport() {
+    fetch('/delivery-report').then(r => r.json()).then(show);
+}
+
+// LOAD DEFAULT
+showPage('home');
+
+</script>
+
+</body>
+</html>
