@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, send_file
+from flask import Flask, request, jsonify, render_template
 
 app = Flask(__name__)
 
@@ -9,7 +9,7 @@ balance = 1000
 # Serve frontend UI
 @app.route('/')
 def home():
-    return send_file('index.html')
+    return render_template('index.html')
 
 # 1️⃣ Service status endpoint
 @app.route('/status', methods=['GET'])
