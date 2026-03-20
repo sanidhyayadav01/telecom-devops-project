@@ -1,6 +1,10 @@
 pipeline {
     agent any
 
+    environment {
+        IMAGE_NAME = "sanidhyaydv/telecom-service:latest"
+    }
+
     stages {
 
         stage('Build Docker Image') {
@@ -11,13 +15,17 @@ pipeline {
 
         stage('Tag Image') {
             steps {
-                bat 'docker tag telecom-service:latest sanidhyaydv/telecom-service:latest'
+                bat 'docker tag telecom-service:latest %IMAGE_NAME%'
             }
         }
 
         stage('Docker Login') {
             steps {
-                withCredentials([usernamePassword(credentialsId: 'e0e74994-088e-472f-b545-e8716b02e279', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
+                withCredentials([usernamePassword(
+                    credentialsId: 'e0e74994-088e-472f-b545-e8716b02e279',
+                    usernameVariable: 'USER',
+                    passwordVariable: 'PASS'
+                )]) {
                     bat 'docker login -u %USER% -p %PASS%'
                 }
             }
@@ -25,31 +33,35 @@ pipeline {
 
         stage('Push Image') {
             steps {
-                bat 'docker push sanidhyaydv/telecom-service:latest'
+                bat 'docker push %IMAGE_NAME%'
             }
         }
 
         stage('Deploy to Kubernetes') {
             steps {
-                bat 'kubectl apply -f kubernetes/deployment.yaml --validate=false'
-                bat 'kubectl apply -f kubernetes/service.yaml --validate=false'
-            }
-        }
-
-        stage('Deploy with Terraform') {
-            steps {
-                dir('terraform') {
-                    bat 'terraform init'
-                    bat 'terraform apply -auto-approve'
+                withCredentials([file(credentialsId: 'kubeconfig', variable: 'KUBECONFIG')]) {
+                    bat 'kubectl apply -f kubernetes/deployment.yaml'
+                    bat 'kubectl apply -f kubernetes/service.yaml'
                 }
             }
         }
 
         stage('Verify Deployment') {
             steps {
-                bat 'kubectl get pods'
-                bat 'kubectl get svc'
+                withCredentials([file(credentialsId: 'kubeconfig', variable: 'KUBECONFIG')]) {
+                    bat 'kubectl get pods'
+                    bat 'kubectl get svc'
+                }
             }
+        }
+    }
+
+    post {
+        success {
+            echo '🚀 Deployment Successful!'
+        }
+        failure {
+            echo '❌ Deployment Failed!'
         }
     }
 }
