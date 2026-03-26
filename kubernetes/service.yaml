@@ -3,9 +3,10 @@ kind: Service
 metadata:
   name: telecom-service
 spec:
-  type: LoadBalancer
+  type: NodePort
   selector:
     app: telecom
   ports:
     - port: 80
       targetPort: 5000
+      nodePort: 30007
