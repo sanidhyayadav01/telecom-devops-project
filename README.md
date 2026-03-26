@@ -191,8 +191,6 @@ Jenkinsfile
 
 ---
 
----
-
 ## 📌 Deployment Note
 
 This README demonstrates the project **working locally**.  
