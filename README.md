@@ -188,3 +188,13 @@ Jenkinsfile
 * Integrate monitoring with Prometheus & Grafana
 * Implement Helm charts
 * Add automated testing in Jenkins pipeline
+
+---
+
+---
+
+## 📌 Deployment Note
+
+This README demonstrates the project **working locally**.  
+
+The actual project is deployed on **AWS EC2**, using **Kubernetes and Containerd (Docker)**
